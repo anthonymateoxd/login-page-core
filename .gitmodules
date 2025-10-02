@@ -1,0 +1,9 @@
+[submodule "login_page_nginx_server"]
+	path = login_page_nginx_server
+	url = https://github.com/anthonymateoxd/login_page_nginx_server.git
+[submodule "login_page_frontend"]
+	path = login_page_frontend
+	url = https://github.com/anthonymateoxd/login_page_frontend.git
+[submodule "login_page_backend"]
+	path = login_page_backend
+	url = https://github.com/anthonymateoxd/login_page_backend.git

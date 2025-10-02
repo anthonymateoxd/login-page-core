@@ -1,0 +1,70 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: ./login_page_backend
+      dockerfile: dockerfile
+    container_name: backend-container
+    restart: always
+    ports:
+      - '4000:4000'
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=guest
+      - DB_NAME=ion_users
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./login_page_frontend
+      dockerfile: dockerfile # ojo con la mayúscula
+    volumes:
+      - frontend_dist:/app/dist
+    command: ['tail', '-f', '/dev/null'] # mantiene vivo el contenedor
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./nginx_server
+      dockerfile: dockerfile
+    container_name: ionic_nginx
+    ports:
+      - '8100:80'
+    volumes:
+      - frontend_dist:/usr/share/nginx/html:ro
+    depends_on:
+      - frontend
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:5.7.33
+    container_name: ion_users
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: guest
+      MYSQL_USER: guest
+      MYSQL_PASSWORD: guest
+      MYSQL_DATABASE: ion_users
+    volumes:
+      - ./login_page_backend/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - mysql_users:/var/lib/mysql
+    networks:
+      - app-network
+
+volumes:
+  mysql_users:
+  frontend_dist:
+
+networks:
+  app-network:
+    driver: bridge
