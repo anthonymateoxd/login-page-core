@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Deploy stack with Docker Compose') {
+            steps {
+                script {
+                    // Baja los contenedores antiguos y levanta los nuevos
+                    sh """
+                    echo "📦 Actualizando imágenes desde Docker Hub..."
+                    docker-compose pull
+
+                    echo "🧹 Deteniendo contenedores anteriores..."
+                    docker-compose down
+
+                    echo "🚀 Levantando nueva versión..."
+                    docker-compose up -d
+
+                    echo "✅ Despliegue completado con éxito."
+                    """
+                }
+            }
+        }
+    }
+}

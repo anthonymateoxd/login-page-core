@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  proyecto-app:
+    build:
+      context: ./Desarrollo_Web
+      dockerfile: Dockerfile
+    restart: always
+    container_name: proyecto-app
+    ports:
+      - '8080'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=ep-dark-leaf-a4wyku7a-pooler.us-east-1.aws.neon.tech;Database=neondb;Username=neondb_owner;Password=npg_VNyw07BLzOnP;Ssl Mode=Require;Trust Server Certificate=true
+
+      - VIRTUAL_HOST=proyecto-app.fazttech.store
+      - LETSENCRYPT_HOST=proyecto-app.fazttech.store
+      - LETSENCRYPT_EMAIL=amateod2@miumg.edu.gt
+
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
