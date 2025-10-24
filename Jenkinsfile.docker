@@ -11,15 +11,17 @@ pipeline {
         stage('Deploy stack with Docker Compose') {
             steps {
                 script {
-                    // Baja los contenedores antiguos y levanta los nuevos
-                    sh """
-                    echo "🧹 Deteniendo contenedores anteriores..."
-                    docker-compose.yml down
+                    bat """
+                    echo 📦 Actualizando imágenes desde Docker Hub...
+                    docker-compose pull
 
-                    echo "🚀 Levantando nueva versión..."
+                    echo 🧹 Deteniendo contenedores anteriores...
+                    docker-compose down
+
+                    echo 🚀 Levantando nueva versión...
                     docker-compose up -d
 
-                    echo "✅ Despliegue completado con éxito."
+                    echo ✅ Despliegue completado con éxito.
                     """
                 }
             }
