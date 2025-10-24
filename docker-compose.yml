@@ -110,7 +110,6 @@ services:
 
   nginx:
     image: mateouni/my-nginx-server:latest
-    container_name: ionic_nginx
     ports:
       - '8100:80'
     volumes:
@@ -122,7 +121,6 @@ services:
 
   mysql:
     image: mysql:5.7.33
-    container_name: ion_users
     restart: always
     ports:
       - '3306:3306'
