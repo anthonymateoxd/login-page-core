@@ -101,12 +101,12 @@ services:
       - app-network
 
   frontend:
-  image: mateouni/login-page-frontend:latest
-  volumes:
-    - frontend_dist:/app/dist
-  command: ['tail', '-f', '/dev/null'] # mantiene vivo el contenedor
-  networks:
-    - app-network
+    image: mateouni/login-page-frontend:latest
+    volumes:
+      - frontend_dist:/app/dist
+    command: ['tail', '-f', '/dev/null'] # mantiene vivo el contenedor
+    networks:
+      - app-network
 
   nginx:
     image: mateouni/my-nginx-server:latest
